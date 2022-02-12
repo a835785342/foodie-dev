@@ -49,7 +49,12 @@ mybatis:
 # mybatis mapper配置
 #
 ############################################################
+# 通用Mapper配置
 mapper:
   mappers: com.imooc.my.mapper.MyMapper
   not-empty: false
   identity: MYSQL
+# 分页插件配置
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true

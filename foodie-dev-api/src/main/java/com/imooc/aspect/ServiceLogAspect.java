@@ -52,11 +52,11 @@ public class ServiceLogAspect {
 
         long takeTime = end - begin;
         if (takeTime > 3000) {
-            log.error("======== 执行结束，耗时：{}毫秒========", takeTime);
+            log.error("======== 执行结束 {}.{}，耗时：{}毫秒========", joinPoint.getTarget().getClass(), joinPoint.getSignature().getName(), takeTime);
         } else if (takeTime > 2000) {
-            log.warn("======== 执行结束，耗时：{}毫秒========", takeTime);
+            log.warn("======== 执行结束 {}.{}，耗时：{}毫秒========", joinPoint.getTarget().getClass(), joinPoint.getSignature().getName(), takeTime);
         } else {
-            log.info("======== 执行结束，耗时：{}毫秒========", takeTime);
+            log.info("======== 执行结束 {}.{}，耗时：{}毫秒========", joinPoint.getTarget().getClass(), joinPoint.getSignature().getName(), takeTime);
         }
 
 
