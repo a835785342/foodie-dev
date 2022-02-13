@@ -1,13 +1,7 @@
 package com.imooc.controller;
 
-import com.imooc.enums.YesOrNo;
 import com.imooc.pojo.*;
-import com.imooc.pojo.vo.CategoryVO;
-import com.imooc.pojo.vo.CommentLevelCountsVO;
-import com.imooc.pojo.vo.ItemInfoVO;
-import com.imooc.pojo.vo.NewItemsVO;
-import com.imooc.service.CarouselService;
-import com.imooc.service.CategoryService;
+import com.imooc.pojo.vo.*;
 import com.imooc.service.ItemService;
 import com.imooc.utils.IMOOCJSONResult;
 import com.imooc.utils.PagedGridResult;
@@ -133,4 +127,17 @@ public class ItemsController extends BaseController {
         return IMOOCJSONResult.ok(grid);
     }
 
+    //用于用户长时间未登录网站，刷新购物车中的数据
+    @ApiOperation(value = "根据商品规格ids查找最新的商品数据", notes = "根据商品规格ids查找最新的商品数据", httpMethod = "GET")
+    @GetMapping("/refresh")
+    public IMOOCJSONResult refresh(@ApiParam(name = "itemSpecIds", value = "商品规格ids", required = true)
+                                   @RequestParam String itemSpecIds
+    ) {
+        if (StringUtils.isBlank(itemSpecIds)) {
+            return IMOOCJSONResult.ok();
+        }
+
+        List<ShopcartVO> list = itemService.queryItemsBySpecIds(itemSpecIds);
+        return IMOOCJSONResult.ok(list);
+    }
 }
