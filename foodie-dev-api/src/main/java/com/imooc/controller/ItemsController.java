@@ -14,6 +14,7 @@ import com.imooc.utils.PagedGridResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ import java.util.List;
 @Api(value = "商品接口", tags = {"商品信息展示的相关接口"})
 @RestController
 @RequestMapping("items")
-public class ItemsController extends BaseController{
+public class ItemsController extends BaseController {
 
     @Autowired
     private ItemService itemService;
@@ -73,14 +74,62 @@ public class ItemsController extends BaseController{
         if (StringUtils.isBlank(itemId)) {
             return IMOOCJSONResult.errorMsg(null);
         }
-        if(page==null){
-            page=1;
+        if (page == null) {
+            page = 1;
         }
-        if(pageSize==null){
-            pageSize= COMMENT_PAGE_SIZE;
+        if (pageSize == null) {
+            pageSize = COMMENT_PAGE_SIZE;
         }
 
         PagedGridResult grid = itemService.queryPagedComments(itemId, level, page, pageSize);
+        return IMOOCJSONResult.ok(grid);
+    }
+
+    @ApiOperation(value = "搜索商品列表", notes = "搜索商品列表", httpMethod = "GET")
+    @GetMapping("/search")
+    public IMOOCJSONResult search(@ApiParam(name = "keywords", value = "关键字", required = true)
+                                  @RequestParam String keywords,
+                                  @ApiParam(name = "sort", value = "排序", required = false)
+                                  @RequestParam String sort,
+                                  @ApiParam(name = "page", value = "当前页数", required = false)
+                                  @RequestParam Integer page,
+                                  @ApiParam(name = "pageSize", value = "每页显示数", required = false)
+                                  @RequestParam Integer pageSize) {
+        if (StringUtils.isBlank(keywords)) {
+            return IMOOCJSONResult.errorMsg(null);
+        }
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = SEARCH_PAGE_SIZE;
+        }
+
+        PagedGridResult grid = itemService.searchItems(keywords, sort, page, pageSize);
+        return IMOOCJSONResult.ok(grid);
+    }
+
+    @ApiOperation(value = "根据分类id搜索商品列表", notes = "根据分类id搜索商品列表", httpMethod = "GET")
+    @GetMapping("/catItems")
+    public IMOOCJSONResult catItems(@ApiParam(name = "catId", value = "分类id", required = true)
+                                    @RequestParam Integer catId,
+                                    @ApiParam(name = "sort", value = "排序", required = false)
+                                    @RequestParam String sort,
+                                    @ApiParam(name = "page", value = "当前页数", required = false)
+                                    @RequestParam Integer page,
+                                    @ApiParam(name = "pageSize", value = "每页显示数", required = false)
+                                    @RequestParam Integer pageSize) {
+        if (catId == null) {
+            return IMOOCJSONResult.errorMsg(null);
+        }
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = SEARCH_PAGE_SIZE;
+        }
+
+        PagedGridResult grid = itemService.searchItems(catId, sort, page, pageSize);
         return IMOOCJSONResult.ok(grid);
     }
 
