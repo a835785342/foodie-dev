@@ -24,6 +24,9 @@ public class OrdersController {
     @ApiOperation(value = "用户下单", notes = "用户下单", httpMethod = "POST")
     @PostMapping("/create")
     public IMOOCJSONResult create(@RequestBody SubmitOrderBO submitOrderBO) {
+
+
+
         System.out.println(submitOrderBO.toString());
 
         // 1.创建订单
