@@ -19,7 +19,6 @@ import java.util.List;
 @Api(value = "首页", tags = {"首页展示的相关接口"})
 @RestController
 @RequestMapping("index")
-@CrossOrigin(origins = "*")
 public class IndexController {
 
     @Autowired
