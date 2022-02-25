@@ -46,7 +46,7 @@ jobs:
         if: always()
         uses: fifsky/ssh-action@master
         with:
-          command: | # 命令中的 & 表示在后台运行进程
+          command: | 
             pkill -f -9 foodie
             cd actions && java -jar foodie-dev-api-1.0-SNAPSHOT.jar &
           host: ${{ secrets.HOST }}
