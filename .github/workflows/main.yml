@@ -38,7 +38,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: foodie-dev-api/target/foodie-dev-api-1.0-SNAPSHOT.jar
-          remote: root/actions/foodie-dev-api-1.0-SNAPSHOT.jar
+          remote: actions/foodie-dev-api-1.0-SNAPSHOT.jar
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
@@ -47,7 +47,8 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: | # 命令中的 & 表示在后台运行进程
-            cd root/actions/ && java -jar foodie-dev-api-1.0-SNAPSHOT.jar &
+            pkill -f -9 foodie
+            cd actions && java -jar foodie-dev-api-1.0-SNAPSHOT.jar &
           host: ${{ secrets.HOST }}
           user: ${{ secrets.SSH_USER }}
           pass: ${{ secrets.SSH_PASSWORD }}
